@@ -52,7 +52,7 @@ spec:
             httpGet:
               path: /
               port: 9600
-            initialDelaySeconds: 60
+            initialDelaySeconds: 30
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 3
@@ -78,6 +78,3 @@ spec:
         - name: es-user
           secret:
             secretName: demo-es-elastic-user
-#      securityContext:
-#        fsGroup: 1000
-#        runAsUser: 1000

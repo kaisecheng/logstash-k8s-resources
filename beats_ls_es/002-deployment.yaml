@@ -63,8 +63,17 @@ spec:
               mountPath: /usr/share/logstash/config/logstash.yml
               subPath: logstash.yml
             - name: es-certs
+              mountPath: /usr/share/logstash/config/es_ca.crt
+              subPath: ca.crt
+            - name: logstash-beats-tls
               mountPath: /usr/share/logstash/config/ca.crt
               subPath: ca.crt
+            - name: logstash-beats-tls
+              mountPath: /usr/share/logstash/config/server.pkcs8.key
+              subPath: server.pkcs8.key
+            - name: logstash-beats-tls
+              mountPath: /usr/share/logstash/config/server.crt
+              subPath: server.crt
       volumes:
         - name: logstash-pipeline
           configMap:
@@ -78,3 +87,6 @@ spec:
         - name: es-user
           secret:
             secretName: demo-es-elastic-user
+        - name: logstash-beats-tls
+          secret:
+            secretName: logstash-beats-tls

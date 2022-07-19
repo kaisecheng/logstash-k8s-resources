@@ -12,6 +12,10 @@ spec:
     output.logstash:
       hosts:
         - "logstash:5044"
+      ssl.certificate_authorities: ["/usr/share/filebeat/ca.crt"]
+      ssl.certificate: "/usr/share/filebeat/client.crt"
+      ssl.key: "/usr/share/filebeat/client.key"
+      ssl.supported_protocols: "TLSv1.2"
     filebeat.inputs:
       - type: log
         symlinks: true
@@ -38,6 +42,15 @@ spec:
                 mountPath: /var/log/pods
               - name: varlibdockercontainers
                 mountPath: /var/lib/docker/containers
+              - name: logstash-beats-tls
+                mountPath: /usr/share/filebeat/ca.crt
+                subPath: ca.crt
+              - name: logstash-beats-tls
+                mountPath: /usr/share/filebeat/client.key
+                subPath: client.key
+              - name: logstash-beats-tls
+                mountPath: /usr/share/filebeat/client.crt
+                subPath: client.crt
         volumes:
           - name: varlogcontainers
             hostPath:
@@ -48,3 +61,6 @@ spec:
           - name: varlibdockercontainers
             hostPath:
               path: /var/lib/docker/containers
+          - name: logstash-beats-tls
+            secret:
+              secretName: logstash-beats-tls

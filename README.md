@@ -17,4 +17,9 @@ Deploy the example
 kubectl apply -f ./beats_ls_es
 ```
 
+To clean up the example
+```
+kubectl delete all -l app=logstash-demo
+```
+
 The demo is tested in minikube kubernetes 1.23

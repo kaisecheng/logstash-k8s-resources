@@ -3,8 +3,9 @@
 This repository used for demo purpose. It includes a collection of Logstash setup connecting to Elastic stack in Kubernetes.
 
 - filebeat -> logstash -> elasticsearch
+- logstash with persistent queue -> elasticsearch
 
-# How to run
+# Prerequisite
 
 Install Elastic CRD
 ```
@@ -12,14 +13,8 @@ helm repo add elastic https://helm.elastic.co && helm repo update
 helm install elastic-operator elastic/eck-operator
 ```
 
-Deploy the example
-```
-kubectl apply -f ./beats_ls_es
-```
+# How to run
 
-To clean up the example
-```
-kubectl delete all -l app=logstash-demo
-```
+Please check the readme in the folder
 
 The demo is tested in minikube kubernetes 1.23

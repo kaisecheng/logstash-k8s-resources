@@ -13,7 +13,7 @@ For the moment, it includes
 kubectl apply -f .
 ```
 
-## To clean up the example
+## Clean up the example
 ```
 kubectl delete service,pods,deployment,hpa,configmap,secret,beat,elasticsearch -l app=logstash-demo
 ```
@@ -30,4 +30,4 @@ default       logstash-f7768c66d-grzbj              0/1     Running   3 (55s ago
 
 Possible solutions
 - In logstash.yml, set `api.http.host: 0.0.0.0` to enable health check connection
-- Review CPU and memory if they are enough to start Logstash within `initialDelaySeconds`
+- Review CPU and memory if they are enough to start Logstash within `initialDelaySeconds` of readinessProbe

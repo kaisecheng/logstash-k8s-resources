@@ -33,7 +33,7 @@ spec:
               cpu: 2000m
               memory: 2Gi
             requests:
-              cpu: 500m
+              cpu: 1000m
               memory: 2Gi
           ports:
             - containerPort: 9600

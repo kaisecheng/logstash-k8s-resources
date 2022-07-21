@@ -1,5 +1,5 @@
 #!/bin/bash
-# this is to generate ca, certificate, key for beats <> logstash mutual verification
+# this is a script generates ca, certificate, key for beats <> logstash mutual verification
 
 cd "$(dirname "$0")"
 

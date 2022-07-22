@@ -18,16 +18,19 @@ kubectl apply -f .
 kubectl delete service,pods,deployment,hpa,configmap,secret,beat,elasticsearch -l app=logstash-demo
 ```
 
-## Troubleshoot
-
-### Unhealthy Logstash pod
-
-Logstash restarts several times and the readiness probe failed
+## Install plugin
 ```
-NAMESPACE     NAME                                  READY   STATUS    RESTARTS      AGE
-default       logstash-f7768c66d-grzbj              0/1     Running   3 (55s ago)   6m32s
+  image: "docker.elastic.co/logstash/logstash:8.3.2"
+  command: ["/bin/bash", "-c"]
+  args:
+    - |
+      set -e
+      bin/logstash-plugin install logstash-output-google_bigquery
+      /usr/local/bin/docker-entrypoint
 ```
 
-Possible solutions
-- In logstash.yml, set `api.http.host: 0.0.0.0` to enable health check connection
-- Review CPU and memory if they are enough to start Logstash within `initialDelaySeconds` of readinessProbe
+## Connect to local Elasticsearch 
+
+## Connect to Elastic Cloud
+
+

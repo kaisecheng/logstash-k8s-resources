@@ -19,6 +19,8 @@ kubectl delete service,pods,deployment,hpa,configmap,secret,beat,elasticsearch -
 ```
 
 ## Install plugin
+
+Add install command in `Deployment`
 ```
   image: "docker.elastic.co/logstash/logstash:8.3.2"
   command: ["/bin/bash", "-c"]
@@ -30,6 +32,30 @@ kubectl delete service,pods,deployment,hpa,configmap,secret,beat,elasticsearch -
 ```
 
 ## Connect to local Elasticsearch 
+
+In test environment, you can connect the host's Elasticsearch instance from Logstash in kubernetes.
+- Set Logstash Deployment `spec.template.spec.hostNetwork` to `true`
+- Add Elasticsearch CA cert to Secret. `kubectl create secret generic es-certs --from-file=ca.crt=/YOUR/ELASTICSEARCH/PATH/config/certs/http_ca.crt`
+- Mount the Secret `es-certs` to Logstash Deployment
+  ```
+          volumeMounts:
+            - name: es-certs
+              mountPath: /usr/share/logstash/config/ca.crt
+              subPath: ca.crt
+    volumes:
+      - name: es-certs
+        secret:
+          secretName: es-certs
+  ```
+- Connect Elasticsearch with IP
+  ```
+  elasticsearch { 
+    hosts => ["https://192.168.1.70:9200"]
+    cacert => "/usr/share/logstash/config/ca.crt"
+    user => 'elastic'
+    password => 'ELASTICSEARCH_PASSWORD'
+  }
+  ```
 
 ## Connect to Elastic Cloud
 

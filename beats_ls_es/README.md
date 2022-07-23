@@ -33,7 +33,7 @@ Add install command in `Deployment`
 
 ## Connect to local Elasticsearch 
 
-In test environment, you can connect the host's Elasticsearch instance from Logstash in kubernetes.
+In test environment, you can connect the host's Elasticsearch from Logstash in kubernetes.
 - Set Logstash Deployment `spec.template.spec.hostNetwork` to `true`
 - Add Elasticsearch CA cert to Secret. `kubectl create secret generic es-certs --from-file=ca.crt=/YOUR/ELASTICSEARCH/PATH/config/certs/http_ca.crt`
 - Mount the Secret `es-certs` to Logstash Deployment
@@ -57,6 +57,10 @@ In test environment, you can connect the host's Elasticsearch instance from Logs
   }
   ```
 
-## Connect to Elastic Cloud
+## Connect to Elastic Cloud Elasticsearch
 
+Config cloud endpoint and username and password to `elasticsearch { }` 
 
+## Autoscaling
+
+To scale Logstash with memory queue, tune the target CPU and memory of `HorizontalPodAutoscaler`.

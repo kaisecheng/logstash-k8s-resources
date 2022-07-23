@@ -31,3 +31,19 @@ Index can be reopened with [_open](https://www.elastic.co/guide/en/elasticsearch
 ```
 kubectl delete service,configmap,secret,elasticsearch,statefulset,pvc -l app=logstash-pq-demo
 ```
+
+## Autoscaling
+
+Scaling out Logstash with PQ should be fine, but when it scales down, events may be leftover in the queue. 
+Setting `queue.drain: true` can make Logstash to wait until the persistent queue is drained before shutting down. 
+The default `terminationGracePeriodSeconds` is 30 seconds which is likely not enough to drain all events.
+A workaround is to set a very long period like 1 year in `terminationGracePeriodSeconds` to make sure Logstash get enough time.
+
+DLQ?
+
+other plugin?
+
+## Resize the disk 
+
+Persistent volume expansion feature depends on the storage class and the cloud provider. 
+See [google cloud doc](https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/volume-expansion)

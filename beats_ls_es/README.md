@@ -4,6 +4,7 @@ For the moment, it includes
 - Filebeat <> Logstash tls mutual verification
 - Logstash <> Elasticsearch tls setup
 - Logstash with memory queue scale with hpa
+- Metricbeat collects metrics of Logstash and Elasticsearch
 
 ## Deploy the example
 ```

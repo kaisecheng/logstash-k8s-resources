@@ -1,4 +1,4 @@
-In this example, Elastic Agent enable kubernetes module and output to Logstash. Logstash send data to Cloud managed Elasticsearch.
+In this example, Elastic Agent enable kubernetes module and output to Logstash(beta). Logstash send data to Elasticsearch Service on Elastic Cloud.
 
 For the moment, it includes
 - Fleet managed Elastic Agent <> Logstash tls mutual verification

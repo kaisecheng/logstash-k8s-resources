@@ -1,10 +1,11 @@
-In this example, Filebeat collect the container log of kube-apiserver and output to Logstash, and then Logstash send the events to Elasticsearch
+In this example, Filebeat collect the container log of kube-apiserver and output to Logstash, and then Logstash send events to Elasticsearch
 
 For the moment, it includes
 - Filebeat <> Logstash tls mutual verification
 - Logstash <> Elasticsearch tls setup
 - Logstash with memory queue scale with hpa
 - Metricbeat collects metrics of Logstash and Elasticsearch
+- Kibana stack monitoring
 
 ## Deploy the example
 ```
@@ -14,9 +15,21 @@ For the moment, it includes
 kubectl apply -f .
 ```
 
+## Access Kibana
+
+Port forwarding kibana port 5601 and open https://localhost:5601/ 
+```
+kubectl port-forward service/demo-kb-http 5601
+```
+
+Login as the elastic user. The password can be obtained with the following command
+```
+kubectl get secret demo-es-elastic-user -o=jsonpath='{.data.elastic}' | base64 --decode; echo
+```
+
 ## Clean up the example
 ```
-kubectl delete service,pods,deployment,hpa,configmap,secret,beat,elasticsearch -l app=logstash-demo
+kubectl delete service,pods,deployment,hpa,configmap,secret,beat,elasticsearch,kibana -l app=logstash-demo
 ```
 
 ## Install plugin

@@ -27,6 +27,46 @@ curl -u "elastic:$PASSWORD" -X POST -k "https://demo2-es-http:9200/uptime-YYYY.M
 
 Index can be reopened with [_open](https://www.elastic.co/guide/en/elasticsearch/reference/8.3/indices-open-close.html) API
 
+## Configuration
+
+### pipeline config
+`001-configmap.yaml` customize `logstash.yml` and `pipelines.yml`, and define two pipelines in `logstash.conf` and `dlq.conf`.
+
+```
+  logstash.yml: |
+    api.http.host: "0.0.0.0"
+    queue.type: persisted
+    dead_letter_queue.enable: true
+    dead_letter_queue.flush_interval: 1000
+  pipelines.yml: |
+    - pipeline.id: main
+      path.config: "/usr/share/logstash/pipeline/logstash.conf"
+    - pipeline.id: dlq
+      path.config: "/usr/share/logstash/pipeline/dlq.conf"
+```
+
+`queue.type: persisted` enable persisted queue.
+
+`dead_letter_queue.enable: true` enable DLQ of elasticsearch output.
+
+### persist data
+
+Logstash with PQ enabled should persist data with `PersistentVolumeClaim` to prevent data loss
+
+```
+  volumeClaimTemplates:
+    - metadata:
+        name: logstash-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 2Gi
+```
+
+Persistent volume expansion feature depends on the storage class and the cloud provider.
+Checkout [google cloud doc](https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/volume-expansion)
+
 ## Clean up the example
 ```
 kubectl delete service,configmap,secret,elasticsearch,statefulset,pvc -l app=logstash-pq-demo
@@ -43,7 +83,4 @@ DLQ?
 
 other plugin?
 
-## Resize the disk 
 
-Persistent volume expansion feature depends on the storage class and the cloud provider. 
-See [google cloud doc](https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/volume-expansion)

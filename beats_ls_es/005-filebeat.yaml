@@ -21,6 +21,7 @@ spec:
         symlinks: true
         paths:
           - /var/log/containers/kube-apiserver*.log
+          - /var/log/containers/konnectivity-agent*.log
     processors:
       - decode_json_fields:
           fields: ["message"]

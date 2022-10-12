@@ -32,6 +32,15 @@ spec:
         password: ${ES_PW}
         ssl.certificate_authorities: ["/usr/share/metricbeat/es_ca.crt"]
         xpack.enabled: true
+      - module: kibana
+        metricsets:
+         - stats
+        period: 10s
+        hosts: "https://demo-kb-http:5601"
+        username: default-demo-beat-user
+        password: ${ES_PW}
+        ssl.verification_mode: "none"
+        xpack.enabled: true
       - module: logstash
         metricsets:
           - node

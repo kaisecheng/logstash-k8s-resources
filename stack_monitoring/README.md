@@ -4,6 +4,11 @@ The recipe has initiated a production elasticsearch cluster, a monitoring elasti
 
 We use metricbeat autodiscover to monitor multiple Logstash.
 
+## Deploy the example
+```
+kubectl apply -f .
+```
+
 ## Set up
 There are two elasticsearch clusters.
 For data in Kibana show in the right cluster, config logstash.yml `monitoring.cluster_uuid` with the uuid of the production elasticsearch cluster.
@@ -15,11 +20,6 @@ data:
     api.http.host: "0.0.0.0"
     monitoring.cluster_uuid: # YOUR PRODUCTION ES CLUSTER UUID
 kind: ConfigMap
-```
-
-## Deploy the example
-```
-kubectl apply -f .
 ```
 
 ## Clean up the example

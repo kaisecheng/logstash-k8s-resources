@@ -1,4 +1,4 @@
-This example modifies the stack monitoring recipes from https://raw.githubusercontent.com/elastic/cloud-on-k8s/2.0/config/recipes/beats/stack_monitoring.yaml
+This example modifies the stack monitoring recipes from https://raw.githubusercontent.com/elastic/cloud-on-k8s/2.4/config/recipes/beats/stack_monitoring.yaml
 
 The recipe has initiated a production elasticsearch cluster, a monitoring elasticsearch cluster, filebeat, metricbeat, a production Kibana and a monitoring Kibana. 
 

@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logstash
+  labels:
+    app: ls
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ls
+  template:
+    metadata:
+      labels:
+        app: ls
+    spec:
+      containers:
+        - name: logstash
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "docker.elastic.co/logstash/logstash:8.4.2"
+          env:
+            - name: LS_JAVA_OPTS
+              value: "-Xmx1g -Xms1g"
+          resources:
+            limits:
+              cpu: 2000m
+              memory: 2Gi
+            requests:
+              cpu: 1000m
+              memory: 1Gi
+          ports:
+            - containerPort: 9600
+              name: stats
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 9600
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 9600
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          volumeMounts:
+            - name: logstash-pipeline
+              mountPath: /usr/share/logstash/pipeline
+            - name: logstash-config
+              mountPath: /usr/share/logstash/config/logstash.yml
+              subPath: logstash.yml
+      volumes:
+        - name: logstash-pipeline
+          configMap:
+            name: logstash-pipeline
+        - name: logstash-config
+          configMap:
+            name: logstash-config

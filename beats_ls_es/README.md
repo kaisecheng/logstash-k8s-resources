@@ -4,6 +4,7 @@ For the moment, it includes
 - Filebeat <> Logstash tls mutual verification
 - Logstash <> Elasticsearch tls setup
 - Logstash with memory queue scale with hpa
+- Logstash references the key of keystore for env variable ${A}
 - Metricbeat collects metrics of Logstash and Elasticsearch
 - Kibana stack monitoring
 
@@ -11,6 +12,9 @@ For the moment, it includes
 ```
 # prepare cert/key for filebeat <> logstash
 ./cert/generate_cert.sh
+
+# prepare secret of keystore
+./keystore/generate_keystore_secret.sh
 
 kubectl apply -f .
 ```
@@ -35,6 +39,10 @@ kubectl get secret demo-es-elastic-user -o=jsonpath='{.data.elastic}' | base64 -
 `001-secret.yaml` contains all certs and keys for filebeat and logstash.
 Filebeat uses ca.crt, client.key and client.crt.
 Logstash uses ca.crt, server.key and server.pkcs8.key.
+
+`generate_keystore_secret.sh` generates the secret of logstash.keystore and output the file `001-keystore-secret.yaml`.
+
+logstash.keystore contains the keys from A to Z, which can be referenced in the pipeline by using env variable syntax, such as ${A}.
 
 ### Filebeat config
 Filebeat mounts the secret `logstash-beats-tls` and config logstash output as following.

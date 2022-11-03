@@ -12,6 +12,10 @@ data:
         ssl_verify_mode => "force_peer"
       }
     }
+    filter {
+      # ${A} is a value from keystore
+      mutate { add_tag => ["${A}"] }
+    }
     output {
       elasticsearch { 
         hosts => ["https://demo-es-http:9200"]

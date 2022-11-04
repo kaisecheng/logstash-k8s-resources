@@ -30,6 +30,38 @@ spec:
         logs: true
         metrics: true
     inputs:
+      - id: logstash/metrics-logstash-5d578f10-7773-4ce8-a732-d0a3592d15a2
+        name: logstash-1
+        revision: 2
+        type: logstash/metrics
+        use_output: default
+        meta:
+          package:
+            name: logstash
+            version: 1.1.0
+        data_stream:
+          namespace: default
+        # condition: ${host.platform} == 'linux'
+        streams:
+          - id: logstash/metrics-logstash.node-5d578f10-7773-4ce8-a732-d0a3592d15a2
+            data_stream:
+              dataset: logstash.node
+              type: metrics
+            period: 10s
+            hosts:
+              - 'http://logstash:9600'
+            metricsets:
+              - node
+          - id: >-
+              logstash/metrics-logstash.node_stats-5d578f10-7773-4ce8-a732-d0a3592d15a2
+            data_stream:
+              dataset: logstash.node_stats
+              type: metrics
+            period: 10s
+            hosts:
+              - 'http://logstash:9600'
+            metricsets:
+              - node_stats
       - id: 678daef0-3634-11eb-8208-57893829af4e
         name: kubernetes-1
         revision: 1

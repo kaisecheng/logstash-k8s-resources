@@ -9,8 +9,8 @@ This repository used for demo purpose. It includes a collection of Logstash setu
 
 Install Elastic CRD
 ```
-helm repo add elastic https://helm.elastic.co && helm repo update
-helm install elastic-operator elastic/eck-operator
+kubectl create -f https://download.elastic.co/downloads/eck/2.4.0/crds.yaml
+kubectl apply -f https://download.elastic.co/downloads/eck/2.4.0/operator.yaml
 ```
 
 # How to run

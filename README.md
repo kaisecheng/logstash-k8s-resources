@@ -19,6 +19,14 @@ Please check the readme in the folder
 
 The demo is tested in minikube kubernetes 1.23
 
+# Uninstall
+
+Uninstall ECK
+```
+kubectl delete -f https://download.elastic.co/downloads/eck/2.4.0/operator.yaml
+kubectl delete -f https://download.elastic.co/downloads/eck/2.4.0/crds.yaml
+```
+
 # Troubleshoot
 
 ### Unhealthy Logstash pod
